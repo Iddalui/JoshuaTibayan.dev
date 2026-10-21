@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Joshua Andre M. Tibayan — Computer Engineering Graduate</title>
+<meta name="description" content="Portfolio of Joshua Andre M. Tibayan.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,700;12..96,800&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<!-- HEADER: sticky navigation. The ◐ button toggles light/dark (see script.js). -->
+<header>
+  <div class="wrap">
+    <a class="logo" href="#top">Joshua Tibayan</a>
+    <nav aria-label="Main">
+      <a href="#work">Work</a>
+      <a href="#about">About</a>
+      <a href="#contact">Contact</a>
+      <button class="icon-btn" id="theme" aria-label="Switch color theme" title="Switch color theme">◐</button>
+    </nav>
+  </div>
+</header>
+
+<!-- HOME PAGE: hero, work, about and contact. Hidden by script.js while a project page is open. -->
+<main id="top" class="home">
+  <div class="wrap hero">
+    <h1>Joshua Tibayan,<span>Aspiring Software Engineer.</span></h1>
+    <div class="hero-row">
+      <p>A motivated and detail-oriented Computer Engineering graduate with hands-on experience in full-stack development, IoT systems, and enterprise network design.</p>
+      <div class="status"><span class="dot" aria-hidden="true"></span>Looking for developer opportunities</div>
+    </div>
+  </div>
+
+  <section id="work">
+    <div class="wrap">
+      <div class="head">
+        <h2>Projects</h2> <!-- Or Selected work -->
+        <!-- Filter buttons: data-f matches each project's category; aria-pressed marks the active one. -->
+        <div class="filters" role="group" aria-label="Filter projects">
+          <button class="chip" data-f="all" aria-pressed="true">All</button>
+          <button class="chip" data-f="sofdev" aria-pressed="false">Software Development</button>
+          <button class="chip" data-f="ai/ml" aria-pressed="false">AI/Machine Learning/Computer Vision</button>
+          <button class="chip" data-f="others" aria-pressed="false">Others</button>
+        </div>
+      </div>
+      <!-- Empty on purpose: script.js generates the project cards from its data array. -->
+      <div class="grid" id="grid"></div>
+      <p class="empty" id="empty" hidden>No projects in this category yet.</p>
+    </div>
+  </section>
+
+  <!-- ABOUT: bio, work history and skill tags. Replace with your own details. -->
+  <section id="about">
+    <div class="wrap about">
+      <div>
+        <h2 style="margin-bottom:1.5rem">About</h2>
+        <p>A motivated and detail-oriented Computer Engineering graduate with hands-on experience in full-stack development, IoT systems, and enterprise network design</p>
+        <p>Has well-rounded experience in secure data handling and system optimization for medical technology, along with academic projects spanning Artificial Intelligence and Machine learning, Computer Programming, Software, Hardware and Electronics.</p>
+        <p>Passionate about applying technical skills to real-world challenges, with proven ability to collaborate on large-scale solutions and improve efficiency through automation. Seeking an opportunity to further develop expertise in software development while contributing to meaningful, future-ready innovations.</p>
+        <div class="jobs">
+          <div class="job"><time>2024</time><div><strong>Technical Intern</strong><br>Contributed to a full-stack registration and availability website using Java, JavaScript, Bootstrap, and SQL to replace manual dashboards for over 10,000 daily users. Ensured platform security, data integrity, and API reliability through version-controlled local development, Postman endpoint testing, and secure database transactions. </div></div>
+          <div class="job"><time>2020 - 2025</time><div><strong>De La Salle University</strong><br>Graduated with a degree in Computer Engineering</div></div>
+        </div>
+      </div>
+      <div class="skills">
+        <div><h3>Design</h3><ul>
+          <li>Application Development</li>
+          <li>Prototyping</li>
+          <li>Mobile Software Development</li>
+          <li>Machine Learning</li>
+          <li>Computer Vision</li>
+        </ul></div>
+        <div><h3>Build</h3>
+          <ul>
+            <li>Java</li>
+            <li>Python</li>
+            <li>HTML</li>
+            <li>C++</li>
+            <li>C</li>
+            <li>SQL</li>
+            <li>HDL</li>
+            <li>Assembly</li>
+            <li>Arduino</li>
+            <li>Raspberry Pi</li>
+            <li>Selenium</li>
+          </ul></div>
+        <div><h3>Tools</h3>
+          <ul>
+            <li>IntelliJ Idea</li>
+            <li>PyCharm</li>
+            <li>WebStorm Release</li>
+            <li>VsCode</li>
+            <li>CVAT</li>
+            <li>Figma</li>
+            <li>Git</li>
+            <li>AutoCad</li>
+            <li>Postman</li>
+            <li>Apache Tomcat</li>
+            <li>FileZilla</li>
+            <li>Sourcetree</li>
+            <li>WampServer</li>
+            <li>Firebase</li>
+          </ul></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT: the email button is a mailto link; the copy button is wired up in script.js. -->
+  <section id="contact">
+    <div class="wrap">
+      <div class="contact">
+        <h2>Want to connect?</h2>
+        <div class="actions">
+          <a class="btn fill" id="mail" href="https://www.linkedin.com/in/joshuatibayan/" target="_blank">Linkedin</a>
+          <a class="btn fill" id="mail" href="mailto:joa.tibayan@gmail.com">Send an email</a>
+          <button class="btn" id="copy" type="button">Copy email address</button>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+<!-- PROJECT PAGE container: empty until a card is clicked, then script.js fills it. -->
+<main id="project" hidden></main>
+
+<footer class="wrap">
+  <span>© <span id="year"></span> Joshua Tibayan</span>
+  <a href="#top">Back to top</a>
+</footer>
+<!-- Small message bar used when the email address is copied. -->
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<!-- Loaded last so every element above already exists when the script runs. -->
+<script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,156 @@
+/* style.css: all styling for the portfolio. Sections: tokens, header, hero, work grid, about, contact, project pages. */
+
+/* DESIGN TOKENS: every color, font and spacing value lives here as a CSS variable. */
+/* Re-theme the whole site by editing only these values. */
+/* The safe-area padding keeps content clear of phone notches (zero on desktop). */
+:root{
+  --bg:#e9eef2; --surface:#f7f9fa; --ink:#14213d; --muted:#4f5d75; --line:#c5d0da;
+  --accent:#2b50ff; --on-accent:#fff; --signal:#ffb400;
+  --display:"Bricolage Grotesque","Arial Narrow",Arial,sans-serif;
+  --body:"DM Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --max:1120px; --gap:clamp(1rem,3vw,2rem);
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px);
+  padding-bottom:env(safe-area-inset-bottom,0px);
+}
+/* DARK MODE (automatic): follows the visitor's system setting unless they picked light with the button. */
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --bg:#0f1830; --surface:#17223f; --ink:#e8eefc; --muted:#a3b1cf; --line:#2c3a5f;
+    --accent:#7d97ff; --on-accent:#0f1830; --signal:#ffc83d; color-scheme:dark;
+  }
+}
+/* DARK MODE (manual): applied when the theme button sets data-theme="dark" on <html>. */
+:root[data-theme="dark"]{
+  --bg:#0f1830; --surface:#17223f; --ink:#e8eefc; --muted:#a3b1cf; --line:#2c3a5f;
+  --accent:#7d97ff; --on-accent:#0f1830; --signal:#ffc83d; color-scheme:dark;
+}
+/* BASE STYLES: sizing reset, smooth scrolling, and a fixed strip behind the status bar on phones. */
+*,*::before,*::after{box-sizing:inherit}
+html{height:100%;scroll-behavior:smooth;scroll-padding-top:calc(env(safe-area-inset-top,0px) + 4.5rem)}
+body{margin:0;background:var(--bg);color:var(--ink);font:400 1.0625rem/1.6 var(--body);-webkit-font-smoothing:antialiased}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);background:var(--bg);z-index:10}
+a{color:inherit}
+img,svg{max-width:100%}
+:focus-visible{outline:3px solid var(--accent);outline-offset:3px;border-radius:4px}
+/* CONTAINER: fills small screens with side margins, stops growing at --max (1120px). */
+.wrap{width:min(100% - 2*var(--gap),var(--max));margin-inline:auto}
+
+/* Header */
+/* Sticky header; top uses the safe-area inset so it sits below the phone status bar. */
+header{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:var(--bg);border-bottom:1px solid var(--line)}
+header .wrap{display:flex;align-items:center;justify-content:space-between;gap:1rem;padding-block:.8rem}
+.logo{font:800 1.15rem var(--display);text-decoration:none;letter-spacing:-.01em}
+nav{display:flex;align-items:center;gap:clamp(.8rem,3vw,1.8rem)}
+nav a{text-decoration:none;font-weight:500;color:var(--muted)}
+nav a:hover{color:var(--ink)}
+.icon-btn{border:1px solid var(--line);background:var(--surface);color:var(--ink);width:2.4rem;height:2.4rem;border-radius:50%;cursor:pointer;font-size:1.05rem;display:grid;place-items:center}
+.icon-btn:hover{border-color:var(--accent)}
+
+/* Hero */
+.hero{padding-block:clamp(3rem,10vw,7rem) clamp(2.5rem,7vw,5rem)}
+/* clamp(min, fluid, max) scales the headline smoothly with screen width, no breakpoints needed. */
+.hero h1{font:800 clamp(3rem,12.5vw,9.5rem)/.9 var(--display);letter-spacing:-.045em;margin:0 0 1.5rem;text-wrap:balance}
+.hero h1 span{display:block;color:var(--accent)}
+.hero-row{display:grid;gap:var(--gap);grid-template-columns:1fr;align-items:end}
+.hero p{margin:0;max-width:34rem;font-size:clamp(1.1rem,2vw,1.35rem);color:var(--muted)}
+.status{display:inline-flex;align-items:center;gap:.6rem;font-weight:500;border:1px solid var(--line);background:var(--surface);border-radius:999px;padding:.45rem 1rem;width:fit-content}
+.dot{width:.65rem;height:.65rem;border-radius:50%;background:var(--signal);box-shadow:0 0 0 0 var(--signal);animation:pulse 2.4s infinite}
+@keyframes pulse{70%{box-shadow:0 0 0 .6rem transparent}100%{box-shadow:0 0 0 0 transparent}}
+@media(min-width:760px){.hero-row{grid-template-columns:1fr auto}}
+.hero h1,.hero-row{animation:rise .9s cubic-bezier(.2,.7,.2,1) both}
+.hero-row{animation-delay:.15s}
+/* Hero fade-up plays once on load. Disabled for reduced-motion users at the bottom of this file. */
+@keyframes rise{from{opacity:0;transform:translateY(24px)}}
+
+/* Section heads */
+section{padding-block:clamp(2.5rem,7vw,5rem)}
+.head{display:flex;flex-wrap:wrap;align-items:end;justify-content:space-between;gap:1rem;margin-bottom:2rem}
+h2{font:800 clamp(2rem,5vw,3.25rem)/1 var(--display);letter-spacing:-.03em;margin:0}
+.filters{display:flex;flex-wrap:wrap;gap:.5rem}
+.chip{font:500 .95rem var(--body);border:1px solid var(--line);background:transparent;color:var(--ink);border-radius:999px;padding:.4rem 1rem;cursor:pointer}
+.chip:hover{border-color:var(--accent)}
+.chip[aria-pressed="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+
+/* Projects */
+/* PROJECT GRID: auto-fill + minmax fits as many 320px columns as possible: 1 on phones, 2-3 on larger screens. */
+.grid{display:grid;gap:var(--gap);grid-template-columns:repeat(auto-fill,minmax(min(100%,320px),1fr))}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:14px;overflow:hidden;display:flex;flex-direction:column;text-decoration:none}
+/* The filter sets the hidden attribute. This rule is required because .card sets display:flex, which would otherwise override it. */
+.card[hidden]{display:none}
+.card:hover .art{transform:scale(1.04)}
+/* COVER ART: drawn in CSS, no images. Each project passes --c1/--c2/--c3 colors inline; .a1, .a2, .a3 are three shape recipes. */
+.cover{aspect-ratio:16/10;overflow:hidden;background:var(--c1);position:relative}
+.art{width:100%;height:100%;transition:transform .5s ease;position:relative}
+.art::before,.art::after{content:"";position:absolute}
+/* Your own image sits on top of the CSS art, filling the cover and cropping to fit (object-fit: cover). */
+.cover img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:transform .5s ease}
+.card:hover .cover img{transform:scale(1.04)}
+.a1{background:var(--c1)}
+.a1::before{width:46%;aspect-ratio:1;border-radius:50%;background:var(--c2);left:12%;top:18%}
+.a1::after{width:34%;height:62%;background:var(--c3);right:12%;bottom:-8%;border-radius:999px 999px 0 0}
+.a2{background:repeating-linear-gradient(90deg,var(--c1) 0 22px,var(--c2) 22px 44px)}
+.a2::before{inset:22% 18%;background:var(--c3);border-radius:10px}
+.a2::after{inset:34% 30%;border:4px solid var(--c1);border-radius:6px}
+.a3{background:var(--c1)}
+.a3::before{inset:0;background:radial-gradient(circle at 70% 30%,var(--c2) 0 28%,transparent 29%),radial-gradient(circle at 25% 75%,var(--c3) 0 22%,transparent 23%)}
+.a3::after{left:12%;right:12%;top:48%;height:4px;background:var(--c2);box-shadow:0 18px 0 var(--c3),0 -18px 0 var(--c3)}
+.body{padding:1.25rem 1.25rem 1.4rem;display:grid;gap:.4rem}
+.body h3{font:700 1.35rem/1.2 var(--display);margin:0;letter-spacing:-.015em}
+.body p{margin:0;color:var(--muted);font-size:1rem}
+.meta{font-size:.92rem;color:var(--muted);margin-top:.4rem}
+.empty{color:var(--muted)}
+
+/* About */
+/* ABOUT: one column on phones, two columns from 820px up. */
+.about{display:grid;gap:clamp(1.5rem,5vw,4rem);grid-template-columns:1fr}
+@media(min-width:820px){.about{grid-template-columns:1.2fr 1fr}}
+.about p{margin:0 0 1.1rem;max-width:36rem}
+.skills{display:grid;gap:1.25rem;align-content:start}
+.skills h3{font:700 1.1rem var(--display);margin:0 0 .5rem}
+.skills ul{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:.5rem}
+.skills li{border:1px solid var(--line);background:var(--surface);border-radius:8px;padding:.25rem .75rem;font-size:.95rem}
+.jobs{margin-top:2rem;border-top:1px solid var(--line)}
+.job{display:grid;grid-template-columns:7.5rem 1fr;gap:1rem;padding:1rem 0;border-bottom:1px solid var(--line)}
+.job time{color:var(--muted)}
+.job strong{font-family:var(--display);font-weight:700}
+@media(max-width:480px){.job{grid-template-columns:1fr;gap:.1rem}}
+
+/* Contact */
+/* CONTACT block: a solid accent panel with the call to action. */
+.contact{background:var(--accent);color:var(--on-accent);border-radius:20px;padding:clamp(1.75rem,6vw,4rem);display:grid;gap:1.25rem}
+.contact h2{font-size:clamp(2.2rem,7vw,5rem)}
+.contact p{margin:0;max-width:32rem;font-size:1.15rem}
+.actions{display:flex;flex-wrap:wrap;gap:.75rem}
+.btn{font:700 1rem var(--body);border-radius:999px;padding:.8rem 1.5rem;border:2px solid currentColor;background:transparent;color:inherit;text-decoration:none;cursor:pointer}
+.btn.fill{background:var(--on-accent);color:var(--accent);border-color:var(--on-accent)}
+.btn:hover{opacity:.85}
+.contact :focus-visible{outline-color:var(--on-accent)}
+footer{padding-block:2rem 3rem;color:var(--muted);display:flex;flex-wrap:wrap;justify-content:space-between;gap:.5rem}
+/* TOAST: hidden below the screen; the .show class slides it up (used by the copy-email button). */
+.toast{position:fixed;left:50%;bottom:calc(1.5rem + env(safe-area-inset-bottom,0px));transform:translate(-50%,200%);background:var(--ink);color:var(--bg);padding:.7rem 1.2rem;border-radius:999px;transition:transform .3s;z-index:30}
+.toast.show{transform:translate(-50%,0)}
+/* Project pages */
+/* PROJECT PAGE styles (the case study view built by script.js). */
+.detail{padding-block:clamp(2rem,6vw,4rem) 2rem}
+.back{display:inline-block;margin-bottom:1.5rem;font-weight:500;color:var(--muted)}
+.back:hover{color:var(--ink)}
+.detail h1{font:800 clamp(2.6rem,9vw,6.5rem)/.95 var(--display);letter-spacing:-.04em;margin:0 0 1rem}
+.lede{font-size:clamp(1.15rem,2.2vw,1.45rem);color:var(--muted);max-width:40rem;margin:0 0 2rem}
+.detail .cover{border-radius:16px;border:1px solid var(--line);margin-bottom:2rem}
+.facts{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:1.25rem;margin:0 0 2.5rem;padding:1.25rem 0;border-block:1px solid var(--line)}
+.facts dt{color:var(--muted);font-size:.95rem}
+.facts dd{margin:.15rem 0 0;font:700 1.1rem var(--display)}
+.case{display:grid;gap:2rem;max-width:42rem;margin-bottom:3rem}
+.case h2{font-size:1.6rem;margin-bottom:.5rem}
+.case p{margin:0}
+.pager{display:grid;gap:var(--gap);grid-template-columns:repeat(auto-fit,minmax(240px,1fr));margin-bottom:2rem}
+.pager a{display:grid;gap:.2rem;border:1px solid var(--line);background:var(--surface);border-radius:14px;padding:1.1rem 1.25rem;text-decoration:none}
+.pager a:hover{border-color:var(--accent)}
+.pager small{color:var(--muted)}
+.pager strong{font:700 1.25rem var(--display)}
+.pager .next{text-align:right}
+/* ACCESSIBILITY: switches off animation and smooth scrolling for people who ask for less motion. */
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation:none!important;transition:none!important;scroll-behavior:auto!important}
+}
